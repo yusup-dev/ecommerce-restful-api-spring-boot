@@ -3,10 +3,12 @@ package com.ecommerce.service.impl;
 import com.ecommerce.dto.CategoryDTO;
 import com.ecommerce.dto.CategoryResponse;
 import com.ecommerce.entity.CategoryEntity;
+import com.ecommerce.entity.ProductEntity;
 import com.ecommerce.exception.APIException;
 import com.ecommerce.exception.ResourceNotFoundException;
 import com.ecommerce.repository.CategoryRepository;
 import com.ecommerce.service.CategoryService;
+import com.ecommerce.service.ProductService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,13 +25,16 @@ public class CategoryServiceImpl implements CategoryService {
 
     private CategoryRepository categoryRepository;
 
+    private ProductService productService;
+
 
     private ModelMapper modelMapper;
 
     @Autowired
-    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper, ProductService productService) {
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
+        this.productService = productService;
     }
 
     @Override
@@ -91,6 +96,12 @@ public class CategoryServiceImpl implements CategoryService {
     public String deleteCategory(Long id) {
         CategoryEntity categoryEntity = categoryRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("CategoryEntity", "id", id));
+
+        List<ProductEntity> productEntities = categoryEntity.getProductEntities();
+
+        productEntities.forEach(productEntity -> {
+            productService.deleteProduct(productEntity.getId());
+        });
 
         categoryRepository.delete(categoryEntity);
 

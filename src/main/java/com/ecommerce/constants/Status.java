@@ -1,5 +1,5 @@
 package com.ecommerce.constants;
 
 public enum Status {
-    ACTIVE
+    UNDEFINED, ACTIVE, INACTIVE
 }

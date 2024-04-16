@@ -2,11 +2,12 @@ package com.ecommerce.entity;
 
 import com.ecommerce.entity.base.DatabaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+import java.util.List;
+
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -20,4 +21,7 @@ public class CategoryEntity extends DatabaseEntity {
 
     @Column(length = 125)
     private String name;
+
+    @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL)
+    private List<ProductEntity> productEntities;
 }
