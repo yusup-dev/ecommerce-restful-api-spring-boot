@@ -22,6 +22,6 @@ public class CategoryEntity extends DatabaseEntity {
     @Column(length = 125)
     private String name;
 
-    @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProductEntity> productEntities;
 }

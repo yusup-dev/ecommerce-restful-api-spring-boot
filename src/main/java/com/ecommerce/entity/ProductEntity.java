@@ -1,5 +1,6 @@
 package com.ecommerce.entity;
 
+import com.ecommerce.entity.base.DatabaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "products")
-public class ProductEntity {
+public class ProductEntity extends DatabaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +38,7 @@ public class ProductEntity {
 
     private double specialPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
     private CategoryEntity categoryEntity;
 }

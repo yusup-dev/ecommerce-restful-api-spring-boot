@@ -38,27 +38,25 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        // disable CORS
-        http.cors(AbstractHttpConfigurer::disable);
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        // disable CSRF
-        http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((authorize) ->
+                        //authorize.anyRequest().authenticated()
+                        authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/v3/api-docs/**").permitAll()
+                                .anyRequest().authenticated()
 
-        // http request Filter
-        http.authorizeHttpRequests((authorize) ->
-                authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("swagger-ui/**").permitAll()
-                        .requestMatchers("v3/api-docs/**").permitAll()
-                        .anyRequest().authenticated()
-        ).exceptionHandling(exception ->exception
-                .authenticationEntryPoint(authEntryPoint)
-        ).sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+                ).exceptionHandling( exception -> exception
+                        .authenticationEntryPoint(authEntryPoint)
+                ).sessionManagement( session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );
 
         http.addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
