@@ -36,5 +36,5 @@ public class AddressEntity extends DatabaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity users;
+    private UserEntity user;
 }

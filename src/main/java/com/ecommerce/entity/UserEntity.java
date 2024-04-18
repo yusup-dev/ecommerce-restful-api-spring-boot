@@ -29,9 +29,9 @@ public class UserEntity extends UserBaseEntity {
     @Column(nullable = false, unique = true, length = 45)
     private String username;
 
-    @Email(message = "please input valid email")
-    @Column(nullable = false, unique = true, length = 125)
-    private String email;
+        @Email(message = "please input valid email")
+        @Column(nullable = false, unique = true, length = 125)
+        private String email;
 
     @Column(length = 25)
     private String phoneNumber;
@@ -57,7 +57,13 @@ public class UserEntity extends UserBaseEntity {
     private Set<RoleEntity> roles;
 
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
-    private List<AddressEntity> addressEntities = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AddressEntity> addresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ReviewEntity> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<RatingEntity> ratings = new ArrayList<>();
 
 }

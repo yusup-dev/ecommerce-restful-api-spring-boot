@@ -21,12 +21,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private UserDetailsService userDetailsService;
 
-    private JwtAuthEntryPoint authEntryPoint;
+    private AuthEntryPoint authEntryPoint;
 
-    private JwtAuthFilter authFilter;
+    private AuthFilter authFilter;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService, JwtAuthEntryPoint authEntryPoint, JwtAuthFilter authFilter) {
+    public SecurityConfig(UserDetailsService userDetailsService, AuthEntryPoint authEntryPoint, AuthFilter authFilter) {
         this.userDetailsService = userDetailsService;
         this.authEntryPoint = authEntryPoint;
         this.authFilter = authFilter;

@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 
         boolean isProductNotPresent = true;
 
-        List<ProductEntity> productEntities = categoryEntity.getProductEntities();
+        List<ProductEntity> productEntities = categoryEntity.getProducts();
 
         for (int i = 0; i < productEntities.size(); i++){
             if(productEntities.get(i).getName().equals(productEntity.getName()) && productEntities.get(i).getName().equals(productEntity.getName()) && productEntities.get(i).getDescription().equals(productEntity.getDescription())){
@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         if(isProductNotPresent){
-            productEntity.setCategoryEntity(categoryEntity);
+            productEntity.setCategory(categoryEntity);
 
             double specialPrice = productEntity.getPrice() - ((productEntity.getDiscount() * 0.01) * productEntity.getPrice());
 
@@ -101,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
 
         Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
 
-        Page<ProductEntity> pageProductEntities = productRepository.findByCategoryEntity(categoryEntity, pageDetails);
+        Page<ProductEntity> pageProductEntities = productRepository.findByCategory(categoryEntity, pageDetails);
 
         List<ProductEntity> productEntities = pageProductEntities.getContent();
 
@@ -133,7 +133,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         productEntity.setId(id);
-        productEntity.setCategoryEntity(productEntityFromDB.getCategoryEntity());
+        productEntity.setCategory(productEntityFromDB.getCategory());
 
         double specialPrice = productEntity.getPrice() - ((productEntity.getDiscount() * 0.01) * productEntity.getPrice());
         productEntity.setSpecialPrice(specialPrice);

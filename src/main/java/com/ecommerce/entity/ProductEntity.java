@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -39,6 +41,12 @@ public class ProductEntity extends DatabaseEntity {
     private double specialPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
-    private CategoryEntity categoryEntity;
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RatingEntity> ratings;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReviewEntity> reviews;
 }

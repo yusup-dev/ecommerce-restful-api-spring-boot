@@ -1,6 +1,6 @@
 package com.ecommerce.service.impl;
 
-import com.ecommerce.config.JwtTokenProvider;
+import com.ecommerce.config.TokenProvider;
 import com.ecommerce.dto.AuthRequest;
 import com.ecommerce.dto.RegisterRequestDTO;
 import com.ecommerce.entity.RoleEntity;
@@ -31,16 +31,16 @@ public class AuthServiceImpl implements AuthService {
 
     private PasswordEncoder passwordEncoder;
 
-    private JwtTokenProvider jwtTokenProvider;
+    private TokenProvider tokenProvider;
 
     private UserRepository userRepository;
 
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider, UserRepository userRepository) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, RoleRepository roleRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider, UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.tokenProvider = tokenProvider;
         this.userRepository = userRepository;
     }
 
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return jwtTokenProvider.generateToken(authentication);
+        return tokenProvider.generateToken(authentication);
 
     }
 
